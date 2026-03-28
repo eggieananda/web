@@ -1,53 +1,54 @@
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dunia Binatang</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f4f4f9; }
-        header { background-color: #2c3e50; color: white; text-align: center; padding: 2rem 0; }
-        .container { display: flex; flex-wrap: wrap; justify-content: center; padding: 20px; gap: 20px; }
-        .card { background: white; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 300px; overflow: hidden; transition: 0.3s; }
-        .card:hover { transform: translateY(-5px); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .card-content { padding: 15px; }
-        .card-content h3 { margin-top: 0; color: #2c3e50; }
-        .card-content p { color: #666; font-size: 0.9rem; line-height: 1.5; }
-    </style>
+  <title>Database Firebase</title>
 </head>
 <body>
 
-<header>
-    <h1>Katalog Binatang Menakjubkan</h1>
-    <p>Mengenal lebih dekat penghuni bumi</p>
-</header>
+<h2>Input Nama</h2>
+<input type="text" id="nama">
+<button onclick="simpan()">Simpan</button>
 
-<div class="container">
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d?q=80&w=600" alt="Singa">
-        <div class="card-content">
-            <h3>Singa (Si Raja Hutan)</h3>
-            <p>Singa adalah spesies karnivora dari keluarga Felidae. Mereka hidup berkelompok dan merupakan predator puncak di habitatnya.</p>
-        </div>
-    </div>
+<ul id="list"></ul>
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1557008075-7f2c5efa4cfd?q=80&w=600" alt="Gajah">
-        <div class="card-content">
-            <h3>Gajah Sumatra</h3>
-            <p>Mamalia darat terbesar di dunia yang dikenal memiliki kecerdasan tinggi dan ikatan sosial yang sangat kuat antar sesamanya.</p>
-        </div>
-    </div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    <div class="card">
-        <img src="https://images.unsplash.com/photo-1564349683136-77e08bef1ed1?q=80&w=600" alt="Panda">
-        <div class="card-content">
-            <h3>Panda Raksasa</h3>
-            <p>Berasal dari Tiongkok tengah, panda dikenal karena warna hitam-putihnya yang ikonik dan makanan utamanya yang berupa bambu.</p>
-        </div>
-    </div>
-</div>
+  const firebaseConfig = {
+    apiKey: "AIzaSyDfs59hRYtUtFG3dVMZ3aGTIm3FvvbDnx8",
+    authDomain: "test-bf56f.firebaseapp.com",
+    projectId: "test-bf56f",
+    storageBucket: "test-bf56f.firebasestorage.app",
+    messagingSenderId: "276624363412",
+    appId: "1:276624363412:web:b232a9df7bf64e4edac981"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  window.simpan = async function () {
+    let nama = document.getElementById("nama").value;
+
+    await addDoc(collection(db, "siswa"), {
+      nama: nama
+    });
+
+    tampil();
+  };
+
+  async function tampil() {
+    const querySnapshot = await getDocs(collection(db, "siswa"));
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+
+    querySnapshot.forEach((doc) => {
+      list.innerHTML += "<li>" + doc.data().nama + "</li>";
+    });
+  }
+
+  tampil();
+</script>
 
 </body>
 </html>
