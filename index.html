@@ -13,10 +13,18 @@
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    getDocs,
+    query,
+    orderBy,
+    serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyDfs59hRYtUtFG3dVMZ3aGTIm3FvvbDnx8",
+    apiKey: "APIKEY",
     authDomain: "test-bf56f.firebaseapp.com",
     projectId: "test-bf56f",
     storageBucket: "test-bf56f.firebasestorage.app",
@@ -31,14 +39,21 @@
     let nama = document.getElementById("nama").value;
 
     await addDoc(collection(db, "siswa"), {
-      nama: nama
+      nama: nama,
+      createdAt: serverTimestamp()
     });
 
     tampil();
   };
 
   async function tampil() {
-    const querySnapshot = await getDocs(collection(db, "siswa"));
+    const q = query(
+      collection(db, "siswa"),
+      orderBy("createdAt", "asc") // terbaru di bawah
+    );
+
+    const querySnapshot = await getDocs(q);
+
     let list = document.getElementById("list");
     list.innerHTML = "";
 
