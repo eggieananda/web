@@ -57,48 +57,38 @@
   <input type="password" id="password" placeholder="Kata sandi">
   <button onclick="login()">Masuk</button>
 </div><script type="module">
-  // Firebase (JANGAN DIHAPUS SESUAI PERMINTAAN)
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "API_KEY_KAMU",
-    authDomain: "PROJECT_ID.firebaseapp.com",
-    projectId: "PROJECT_ID",
-    storageBucket: "PROJECT_ID.appspot.com",
-    messagingSenderId: "SENDER_ID",
-    appId: "APP_ID"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyDfs59hRYtUtFG3dVMZ3aGTIm3FvvbDnx8",
+  authDomain: "test-bf56f.firebaseapp.com",
+  projectId: "test-bf56f",
+  storageBucket: "test-bf56f.firebasestorage.app",
+  messagingSenderId: "276624363412",
+  appId: "1:276624363412:web:b232a9df7bf64e4edac981"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-  // Function login
-  window.login = async function() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+// tombol login
+document.querySelector("button").addEventListener("click", async () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    try {
-      await addDoc(collection(db, "login"), {
-        email: email,
-        password: password,
-        waktu: new Date()
-      });
+  try {
+    await addDoc(collection(db, "login"), {
+      email,
+      password,
+      waktu: new Date()
+    });
 
-      // SweetAlert sukses
-      Swal.fire({
-        icon: 'success',
-        title: 'Login Berhasil',
-        text: 'Selamat datang!'
-      });
-
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: error.message
-      });
-    }
+    Swal.fire("Login sukses!");
+  } catch (e) {
+    console.error(e);
+    Swal.fire("Error: " + e.message);
   }
+});
 </script></body>
 </html>
